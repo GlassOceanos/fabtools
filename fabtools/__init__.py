@@ -26,6 +26,7 @@ import fabtools.ssh
 import fabtools.supervisor
 import fabtools.system
 import fabtools.tomcat
+import fabtools.update_conf
 import fabtools.user
 
 import fabtools.require
