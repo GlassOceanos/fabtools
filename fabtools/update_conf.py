@@ -9,12 +9,13 @@ This module provides tools for generating configuration files from
 
 """
 
-from fabtools import python, require
-from fabtools.files import is_dir, is_file, move
-from fabtools.utils import run_as_root
 import os
 
 from fabric.api import abort, run
+
+from fabtools import python, require
+from fabtools.files import is_dir, is_file, move
+from fabtools.utils import run_as_root
 
 
 def is_installed():
@@ -24,11 +25,11 @@ def is_installed():
     return python.is_installed('update-conf.py')
 
 
-def install(use_sudo=True):
+def install():
     """
     Install the latest version of `update_conf.py`_.
     """
-    python.install('update-conf.py', use_sudo=use_sudo)
+    require.python.package('update-conf.py')
 
 
 def generate_file(config_file, snippets_dir=None, use_sudo=False):
