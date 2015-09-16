@@ -32,22 +32,26 @@ def install():
     require.python.package('update-conf.py')
 
 
-def generate_file(config_file, snippets_dir=None, use_sudo=False):
+def generate_file(config_file, snippets_dir=None, use_sudo=False, owner='', group='', mode=''):
     """
     Generate a configuration file from a 'conf.d' snippets directory.
     """
     command = 'update-conf.py -f %s' % config_file
 
-    if snippets_dir is not None:
-        command.append('-d %s' % snippets_dir)
+    if snippets_dir is None:
+        snippets_dir = '%s.d' % config_file
+
+    command += ' -d %s' % snippets_dir
 
     if not is_dir(snippets_dir, use_sudo):
-        abort('Snippets directory %s does not exist' % snippets_dir)
+        abort('Snippets directory "%s" does not exist' % snippets_dir)
 
     if use_sudo:
         run_as_root(command, pty=False)
     else:
         run(command, pty=False)
+
+    require.file(config_file, use_sudo=use_sudo, owner=owner, group=group, mode=mode)
 
 
 def create_snippets_dir(config_file, snippets_dir=None, move_file=True, use_sudo=False,
