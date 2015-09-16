@@ -25,26 +25,19 @@ def is_installed():
     return python.is_installed('update-conf.py')
 
 
-def install():
-    """
-    Install the latest version of `update_conf.py`_.
-    """
-    require.python.package('update-conf.py')
-
-
 def generate_file(config_file, snippets_dir=None, use_sudo=False, owner='', group='', mode=''):
     """
     Generate a configuration file from a 'conf.d' snippets directory.
     """
-    command = 'update-conf.py -f %s' % config_file
+    require.python.package('update-conf.py')
 
     if snippets_dir is None:
         snippets_dir = '%s.d' % config_file
 
-    command += ' -d %s' % snippets_dir
-
     if not is_dir(snippets_dir, use_sudo):
         abort('Snippets directory "%s" does not exist' % snippets_dir)
+
+    command = 'update-conf.py -f %s -d %s' % (config_file, snippets_dir)
 
     if use_sudo:
         run_as_root(command, pty=False)
@@ -60,6 +53,8 @@ def create_snippets_dir(config_file, snippets_dir=None, move_file=True, use_sudo
     Create a 'conf.d' snippets directory suitable to be used with update-conf.py,
     optionally moving the original configuration file into the new snippets directory.
     """
+    require.python.package('update-conf.py')
+
     if snippets_dir is None:
         snippets_dir = '%s.d' % config_file
 
