@@ -29,7 +29,7 @@ def generate_file(config_file, snippets_dir=None, use_sudo=False, owner='', grou
     """
     Generate a configuration file from a 'conf.d' snippets directory.
     """
-    require.python.package('update-conf.py')
+    require.python.package('update-conf.py', use_sudo=True)
 
     if snippets_dir is None:
         snippets_dir = '%s.d' % config_file
@@ -53,7 +53,7 @@ def create_snippets_dir(config_file, snippets_dir=None, move_file=True, use_sudo
     Create a 'conf.d' snippets directory suitable to be used with update-conf.py,
     optionally moving the original configuration file into the new snippets directory.
     """
-    require.python.package('update-conf.py')
+    require.python.package('update-conf.py', use_sudo=True)
 
     if snippets_dir is None:
         snippets_dir = '%s.d' % config_file
